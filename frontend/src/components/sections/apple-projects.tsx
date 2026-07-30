@@ -8,6 +8,17 @@ import { PremiumButton } from '@/components/ui/premium-button'
 const projects = [
   {
     id: 1,
+    title: 'CHUITECHMa Voting Management System',
+    description: 'A comprehensive voting management system built for CHUITECHMa school, featuring secure student voting, real-time results, and admin dashboard for election management.',
+    image: '/placeholder-voting.jpg',
+    technologies: ['PHP', 'MySQL', 'JavaScript', 'HTML5', 'CSS3'],
+    stats: { voters: '500+', elections: '12+', accuracy: '100%' },
+    featured: true,
+    github: 'https://github.com/GideonNgwese/chuitechma-voting',
+    live: 'https://midian.free.nf',
+  },
+  {
+    id: 2,
     title: 'E-Commerce Platform',
     description: 'A modern e-commerce platform with real-time inventory management, payment processing, and admin dashboard.',
     image: '/placeholder-1.jpg',
@@ -18,7 +29,7 @@ const projects = [
     live: 'https://demo-ecommerce.example.com',
   },
   {
-    id: 2,
+    id: 3,
     title: 'Task Management App',
     description: 'A Trello-like task management application with drag-and-drop functionality, real-time collaboration, and team workspaces.',
     image: '/placeholder-2.jpg',
@@ -29,7 +40,7 @@ const projects = [
     live: 'https://tasks.example.com',
   },
   {
-    id: 3,
+    id: 4,
     title: 'Weather Dashboard',
     description: 'A weather dashboard that provides accurate forecasts based on user location with hourly/daily forecasts and severe weather alerts.',
     image: '/placeholder-3.jpg',
@@ -40,7 +51,7 @@ const projects = [
     live: 'https://weather.example.com',
   },
   {
-    id: 4,
+    id: 5,
     title: 'Portfolio Generator',
     description: 'An AI-powered tool that generates professional portfolio websites based on user input using GPT-4 for content generation.',
     image: '/placeholder-4.jpg',
@@ -92,7 +103,12 @@ export function AppleProjects() {
                 {/* Image Preview */}
                 <div className="relative h-64 bg-gradient-to-br from-blue-900/30 to-purple-900/30 overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-6xl font-display font-bold text-white/20">{project.title[0]}</span>
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-xl">
+                        <span className="text-4xl font-display font-bold text-white">{project.title[0]}</span>
+                      </div>
+                      <p className="text-white/40 text-sm">Live Preview Available</p>
+                    </div>
                   </div>
                   
                   {/* Hover Overlay */}
