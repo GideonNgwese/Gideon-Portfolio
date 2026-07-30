@@ -68,13 +68,21 @@ export default function NewProjectPage() {
     setLoading(true)
 
     try {
+      console.log('Submitting form data:', formData)
+      
       const response = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
 
-      if (!response.ok) throw new Error('Failed to create project')
+      const responseData = await response.json()
+      console.log('API response:', responseData)
+
+      if (!response.ok) {
+        console.error('API error:', responseData)
+        throw new Error(responseData.error || 'Failed to create project')
+      }
 
       toast({
         title: 'Success',
@@ -82,9 +90,10 @@ export default function NewProjectPage() {
       })
       router.push('/admin/projects')
     } catch (error) {
+      console.error('Submit error:', error)
       toast({
         title: 'Error',
-        description: 'Failed to create project',
+        description: error instanceof Error ? error.message : 'Failed to create project',
         variant: 'destructive',
       })
     } finally {

@@ -31,18 +31,24 @@ export async function POST(request: Request) {
     const supabase = await createClient()
     const body = await request.json()
 
+    console.log('Creating project with data:', body)
+
     const { data, error } = await supabase
       .from('projects')
       .insert(body)
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase error:', error)
+      throw error
+    }
 
     return NextResponse.json(data, { status: 201 })
   } catch (error: any) {
+    console.error('Create project error:', error)
     return NextResponse.json(
-      { error: error.message },
+      { error: error.message || 'Failed to create project' },
       { status: 500 }
     )
   }
