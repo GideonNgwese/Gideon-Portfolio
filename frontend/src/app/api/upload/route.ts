@@ -1,9 +1,10 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { writeFile, mkdir } from 'fs/promises'
+import path from 'path'
+import { existsSync } from 'fs'
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient()
     const formData = await request.formData()
     const file = formData.get('file') as File
     const bucket = formData.get('bucket') as string || 'portfolio-images'
@@ -35,25 +36,30 @@ export async function POST(request: Request) {
     // Generate unique filename
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
-    const filePath = `${fileName}`
-
-    // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(filePath, file, {
-        upsert: false,
-        contentType: file.type,
-      })
-
-    if (error) throw error
-
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(filePath)
+    
+    // Determine upload directory based on bucket
+    let uploadDir = path.join(process.cwd(), 'public', 'images')
+    if (bucket === 'project-previews') {
+      uploadDir = path.join(uploadDir, 'projects')
+    }
+    
+    // Create directory if it doesn't exist
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true })
+    }
+    
+    const filePath = path.join(uploadDir, fileName)
+    
+    // Convert file to buffer and save
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    await writeFile(filePath, buffer)
+    
+    // Generate public URL
+    const publicUrl = `/images${bucket === 'project-previews' ? '/projects' : ''}/${fileName}`
 
     return NextResponse.json({
-      path: data.path,
+      path: fileName,
       url: publicUrl,
     })
   } catch (error: any) {
@@ -67,21 +73,29 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const supabase = await createClient()
-    const { path, bucket } = await request.json()
+    const { path: filePath, bucket } = await request.json()
 
-    if (!path) {
+    if (!filePath) {
       return NextResponse.json(
         { error: 'No path provided' },
         { status: 400 }
       )
     }
-
-    const { error } = await supabase.storage
-      .from(bucket || 'portfolio-images')
-      .remove([path])
-
-    if (error) throw error
+    
+    // Determine file location
+    let fullPath = path.join(process.cwd(), 'public', 'images', filePath)
+    if (bucket === 'project-previews') {
+      fullPath = path.join(process.cwd(), 'public', 'images', 'projects', filePath)
+    }
+    
+    // Delete file if it exists
+    const { unlink } = await import('fs/promises')
+    try {
+      await unlink(fullPath)
+    } catch (err) {
+      // File might not exist, that's okay
+      console.log('File not found or already deleted:', fullPath)
+    }
 
     return NextResponse.json({ success: true })
   } catch (error: any) {
