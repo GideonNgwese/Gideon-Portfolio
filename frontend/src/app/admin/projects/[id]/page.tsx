@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { ImageUpload } from '@/components/ui/image-upload'
 import { ArrowLeft, Save, X, Loader2 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { AdminLayout } from '@/components/admin/admin-layout'
@@ -31,10 +30,6 @@ export default function EditProjectPage() {
     featured: false,
     status: 'draft',
     technologies: [] as string[],
-    image_url: '',
-    image_path: '',
-    preview_image_url: '',
-    preview_image_path: '',
   })
   const [techInput, setTechInput] = useState('')
 
@@ -59,10 +54,6 @@ export default function EditProjectPage() {
         featured: data.featured || false,
         status: data.status || 'draft',
         technologies: data.technologies || [],
-        image_url: data.image_url || '',
-        image_path: data.image_path || '',
-        preview_image_url: data.preview_image_url || '',
-        preview_image_path: data.preview_image_path || '',
       })
     } catch (error) {
       toast({
@@ -85,22 +76,6 @@ export default function EditProjectPage() {
 
   const handleRemoveTech = (tech: string) => {
     setFormData({ ...formData, technologies: formData.technologies.filter(t => t !== tech) })
-  }
-
-  const handleImageUpload = (url: string, path: string) => {
-    setFormData({ ...formData, image_url: url, image_path: path })
-  }
-
-  const handleImageRemove = () => {
-    setFormData({ ...formData, image_url: '', image_path: '' })
-  }
-
-  const handlePreviewImageUpload = (url: string, path: string) => {
-    setFormData({ ...formData, preview_image_url: url, preview_image_path: path })
-  }
-
-  const handlePreviewImageRemove = () => {
-    setFormData({ ...formData, preview_image_url: '', preview_image_path: '' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -209,35 +184,6 @@ export default function EditProjectPage() {
                     rows={6}
                   />
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="glass-dark">
-              <CardHeader>
-                <CardTitle>Project Image</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ImageUpload
-                  onUpload={handleImageUpload}
-                  onRemove={handleImageRemove}
-                  currentImage={formData.image_url}
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="glass-dark">
-              <CardHeader>
-                <CardTitle>Preview Image</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ImageUpload
-                  onUpload={handlePreviewImageUpload}
-                  onRemove={handlePreviewImageRemove}
-                  currentImage={formData.preview_image_url}
-                />
-                <p className="text-sm text-muted-foreground mt-2">
-                  This image will be displayed in the projects section instead of the live preview iframe.
-                </p>
               </CardContent>
             </Card>
 
