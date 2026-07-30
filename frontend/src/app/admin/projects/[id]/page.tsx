@@ -33,6 +33,8 @@ export default function EditProjectPage() {
     technologies: [] as string[],
     image_url: '',
     image_path: '',
+    preview_image_url: '',
+    preview_image_path: '',
   })
   const [techInput, setTechInput] = useState('')
 
@@ -59,6 +61,8 @@ export default function EditProjectPage() {
         technologies: data.technologies || [],
         image_url: data.image_url || '',
         image_path: data.image_path || '',
+        preview_image_url: data.preview_image_url || '',
+        preview_image_path: data.preview_image_path || '',
       })
     } catch (error) {
       toast({
@@ -89,6 +93,14 @@ export default function EditProjectPage() {
 
   const handleImageRemove = () => {
     setFormData({ ...formData, image_url: '', image_path: '' })
+  }
+
+  const handlePreviewImageUpload = (url: string, path: string) => {
+    setFormData({ ...formData, preview_image_url: url, preview_image_path: path })
+  }
+
+  const handlePreviewImageRemove = () => {
+    setFormData({ ...formData, preview_image_url: '', preview_image_path: '' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -200,6 +212,22 @@ export default function EditProjectPage() {
                   onRemove={handleImageRemove}
                   currentImage={formData.image_url}
                 />
+              </CardContent>
+            </Card>
+
+            <Card className="glass-dark">
+              <CardHeader>
+                <CardTitle>Preview Image</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ImageUpload
+                  onUpload={handlePreviewImageUpload}
+                  onRemove={handlePreviewImageRemove}
+                  currentImage={formData.preview_image_url}
+                />
+                <p className="text-sm text-muted-foreground mt-2">
+                  This image will be displayed in the projects section instead of the live preview iframe.
+                </p>
               </CardContent>
             </Card>
 
