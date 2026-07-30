@@ -148,24 +148,22 @@ export default function EditProjectPage() {
 
   return (
     <AdminLayout>
-      <div className="p-8">
-        <div className="container mx-auto max-w-4xl">
-          <div className="mb-8">
-            <Link href="/admin/projects">
-              <Button variant="ghost" className="gap-2 mb-4">
-                <ArrowLeft className="w-4 h-4" />
-                Back to Projects
-              </Button>
-            </Link>
-            <h1 className="font-display text-4xl font-bold mb-2 text-gradient-dark">
-              Edit Project
-            </h1>
-            <p className="text-muted-foreground">
-              Update your project information
-            </p>
-          </div>
+      <div className="container mx-auto max-w-4xl mb-8">
+        <Link href="/admin/projects">
+          <Button variant="ghost" className="gap-2 mb-4">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Projects
+          </Button>
+        </Link>
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gradient-dark">
+          Edit Project
+        </h1>
+        <p className="text-muted-foreground text-sm md:text-base">
+          Update your project information
+        </p>
+      </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
             <Card className="glass-dark">
               <CardHeader>
                 <CardTitle>Basic Information</CardTitle>
@@ -341,8 +339,6 @@ export default function EditProjectPage() {
               </Link>
             </div>
           </form>
-        </div>
-      </div>
     </AdminLayout>
   )
 }

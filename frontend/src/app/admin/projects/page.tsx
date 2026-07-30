@@ -82,43 +82,41 @@ export default function AdminProjects() {
 
   return (
     <AdminLayout>
-      <div className="p-8">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="font-display text-4xl font-bold mb-2 text-gradient-dark">
-                Projects
-              </h1>
-              <p className="text-muted-foreground">
-                Manage your portfolio projects
-              </p>
-            </div>
-            <Link href="/admin/projects/new">
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Add Project
-              </Button>
-            </Link>
-          </div>
+      <div className="flex items-center justify-between mb-8 flex-col md:flex-row gap-4">
+        <div className="text-center md:text-left">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gradient-dark">
+            Projects
+          </h1>
+          <p className="text-muted-foreground text-sm md:text-base">
+            Manage your portfolio projects
+          </p>
+        </div>
+        <Link href="/admin/projects/new">
+          <Button className="gap-2 w-full md:w-auto">
+            <Plus className="w-4 h-4" />
+            Add Project
+          </Button>
+        </Link>
+      </div>
 
-          <div className="grid gap-4">
+      <div className="grid gap-4">
             {projects.map((project) => (
               <Card key={project.id} className="glass-dark">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-display text-xl font-semibold">
+                      <div className="flex items-center gap-2 md:gap-3 mb-2 flex-wrap">
+                        <h3 className="font-display text-lg md:text-xl font-semibold">
                           {project.title}
                         </h3>
                         {project.featured && (
-                          <Badge variant="secondary">Featured</Badge>
+                          <Badge variant="secondary" className="text-xs">Featured</Badge>
                         )}
-                        <Badge variant={project.status === 'published' ? 'default' : 'outline'}>
+                        <Badge variant={project.status === 'published' ? 'default' : 'outline'} className="text-xs">
                           {project.status}
                         </Badge>
                       </div>
-                      <p className="text-muted-foreground mb-4">
+                      <p className="text-muted-foreground mb-4 text-sm md:text-base">
                         {project.description}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -131,13 +129,13 @@ export default function AdminProjects() {
                           </span>
                         ))}
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 flex-wrap">
                         {project.live_url && (
                           <a
                             href={project.live_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+                            className="text-xs md:text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
                           >
                             <ExternalLink className="w-4 h-4" />
                             Live
@@ -148,7 +146,7 @@ export default function AdminProjects() {
                             href={project.github_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+                            className="text-xs md:text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
                           >
                             <Github className="w-4 h-4" />
                             Code
@@ -156,9 +154,9 @@ export default function AdminProjects() {
                         )}
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 md:flex-col">
                       <Link href={`/admin/projects/${project.id}`}>
-                        <Button size="sm" variant="outline" className="gap-2">
+                        <Button size="sm" variant="outline" className="gap-2 w-full md:w-auto">
                           <Edit className="w-4 h-4" />
                           Edit
                         </Button>
@@ -166,7 +164,7 @@ export default function AdminProjects() {
                       <Button
                         size="sm"
                         variant="destructive"
-                        className="gap-2"
+                        className="gap-2 w-full md:w-auto"
                         onClick={() => handleDelete(project.id)}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -192,8 +190,6 @@ export default function AdminProjects() {
               </CardContent>
             </Card>
           )}
-        </div>
-      </div>
     </AdminLayout>
   )
 }

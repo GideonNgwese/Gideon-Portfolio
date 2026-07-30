@@ -16,6 +16,10 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
+interface AdminSidebarProps {
+  onCloseMobile?: () => void
+}
+
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
@@ -25,13 +29,19 @@ const navItems = [
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ]
 
-export function AdminSidebar() {
+export function AdminSidebar({ onCloseMobile }: AdminSidebarProps) {
   const pathname = usePathname()
   const supabase = createClient()
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
     window.location.href = '/admin/login'
+  }
+
+  const handleNavClick = () => {
+    if (onCloseMobile) {
+      onCloseMobile()
+    }
   }
 
   return (
@@ -51,6 +61,7 @@ export function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={handleNavClick}
               className={cn(
                 'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors',
                 isActive
@@ -68,6 +79,7 @@ export function AdminSidebar() {
       <div className="pt-4 border-t border-border/50 space-y-2">
         <Link
           href="/"
+          onClick={handleNavClick}
           className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
         >
           <User className="w-5 h-5" />
