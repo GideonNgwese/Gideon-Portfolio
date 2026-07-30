@@ -70,10 +70,22 @@ export default function NewProjectPage() {
     try {
       console.log('Submitting form data:', formData)
       
+      // Only send fields that exist in the database
+      const projectData = {
+        title: formData.title,
+        description: formData.description,
+        long_description: formData.long_description,
+        live_url: formData.live_url,
+        github_url: formData.github_url,
+        featured: formData.featured,
+        status: formData.status,
+        technologies: formData.technologies,
+      }
+      
       const response = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(projectData),
       })
 
       const responseData = await response.json()

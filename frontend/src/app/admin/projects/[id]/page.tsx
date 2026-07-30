@@ -108,10 +108,22 @@ export default function EditProjectPage() {
     setSaving(true)
 
     try {
+      // Only send fields that exist in the database
+      const projectData = {
+        title: formData.title,
+        description: formData.description,
+        long_description: formData.long_description,
+        live_url: formData.live_url,
+        github_url: formData.github_url,
+        featured: formData.featured,
+        status: formData.status,
+        technologies: formData.technologies,
+      }
+      
       const response = await fetch(`/api/projects/${params.id as string}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(projectData),
       })
 
       if (!response.ok) throw new Error('Failed to update project')
