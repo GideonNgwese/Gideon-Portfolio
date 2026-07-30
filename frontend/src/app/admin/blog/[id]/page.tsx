@@ -33,12 +33,15 @@ export default function EditBlogPostPage() {
   const [tagInput, setTagInput] = useState('')
 
   useEffect(() => {
-    fetchPost()
+    if (params.id) {
+      fetchPost()
+    }
   }, [params.id])
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`/api/blog-posts/${params.id}`)
+      const id = params.id as string
+      const response = await fetch(`/api/blog-posts/${id}`)
       if (!response.ok) throw new Error('Failed to fetch blog post')
       const data = await response.json()
       setFormData({
@@ -108,7 +111,7 @@ export default function EditBlogPostPage() {
           : formData.published_at,
       }
 
-      const response = await fetch(`/api/blog-posts/${params.id}`, {
+      const response = await fetch(`/api/blog-posts/${params.id as string}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

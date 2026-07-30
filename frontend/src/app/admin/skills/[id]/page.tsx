@@ -25,12 +25,15 @@ export default function EditSkillPage() {
   })
 
   useEffect(() => {
-    fetchSkill()
+    if (params.id) {
+      fetchSkill()
+    }
   }, [params.id])
 
   const fetchSkill = async () => {
     try {
-      const response = await fetch(`/api/skills/${params.id}`)
+      const id = params.id as string
+      const response = await fetch(`/api/skills/${id}`)
       if (!response.ok) throw new Error('Failed to fetch skill')
       const data = await response.json()
       setFormData({
@@ -55,7 +58,7 @@ export default function EditSkillPage() {
     setSaving(true)
 
     try {
-      const response = await fetch(`/api/skills/${params.id}`, {
+      const response = await fetch(`/api/skills/${params.id as string}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

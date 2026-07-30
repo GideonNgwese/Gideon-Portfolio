@@ -32,12 +32,15 @@ export default function EditTestimonialPage() {
   })
 
   useEffect(() => {
-    fetchTestimonial()
+    if (params.id) {
+      fetchTestimonial()
+    }
   }, [params.id])
 
   const fetchTestimonial = async () => {
     try {
-      const response = await fetch(`/api/testimonials/${params.id}`)
+      const id = params.id as string
+      const response = await fetch(`/api/testimonials/${id}`)
       if (!response.ok) throw new Error('Failed to fetch testimonial')
       const data = await response.json()
       setFormData({
@@ -67,7 +70,7 @@ export default function EditTestimonialPage() {
     setSaving(true)
 
     try {
-      const response = await fetch(`/api/testimonials/${params.id}`, {
+      const response = await fetch(`/api/testimonials/${params.id as string}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

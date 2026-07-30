@@ -37,12 +37,15 @@ export default function EditProjectPage() {
   const [techInput, setTechInput] = useState('')
 
   useEffect(() => {
-    fetchProject()
+    if (params.id) {
+      fetchProject()
+    }
   }, [params.id])
 
   const fetchProject = async () => {
     try {
-      const response = await fetch(`/api/projects/${params.id}`)
+      const id = params.id as string
+      const response = await fetch(`/api/projects/${id}`)
       if (!response.ok) throw new Error('Failed to fetch project')
       const data = await response.json()
       setFormData({
@@ -93,7 +96,7 @@ export default function EditProjectPage() {
     setSaving(true)
 
     try {
-      const response = await fetch(`/api/projects/${params.id}`, {
+      const response = await fetch(`/api/projects/${params.id as string}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
