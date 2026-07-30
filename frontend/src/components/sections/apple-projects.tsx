@@ -102,14 +102,24 @@ export function AppleProjects() {
               <div className="relative bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all duration-500">
                 {/* Image Preview */}
                 <div className="relative h-64 bg-gradient-to-br from-blue-900/30 to-purple-900/30 overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-xl">
-                        <span className="text-4xl font-display font-bold text-white">{project.title[0]}</span>
+                  {project.live ? (
+                    <iframe
+                      src={project.live}
+                      className="w-full h-full border-0"
+                      title={`${project.title} Preview`}
+                      loading="lazy"
+                      sandbox="allow-same-origin allow-scripts allow-popups"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-xl">
+                          <span className="text-4xl font-display font-bold text-white">{project.title[0]}</span>
+                        </div>
+                        <p className="text-white/40 text-sm">Coming Soon</p>
                       </div>
-                      <p className="text-white/40 text-sm">Live Preview Available</p>
                     </div>
-                  </div>
+                  )}
                   
                   {/* Hover Overlay */}
                   <motion.div
