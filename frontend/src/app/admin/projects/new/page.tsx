@@ -168,7 +168,6 @@ export default function NewProjectPage() {
                   onUpload={handlePreviewImageUpload}
                   onRemove={handlePreviewImageRemove}
                   currentImage={formData.preview_image_url}
-                  bucket="project-previews"
                 />
                 <p className="text-sm text-muted-foreground mt-2">
                   This image will be displayed in the projects section instead of the live preview iframe.
