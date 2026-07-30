@@ -1,75 +1,33 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ExternalLink, Github, ArrowRight, Star, Zap } from 'lucide-react'
+import { ExternalLink, Github, ArrowRight, Star, Zap, Loader2 } from 'lucide-react'
 import { PremiumButton } from '@/components/ui/premium-button'
 
-const projects = [
-  {
-    id: 1,
-    title: 'CHUITECHMa Voting Management System',
-    description: 'A comprehensive voting management system built for CHUITECHMa school, featuring secure student voting, real-time results, and admin dashboard for election management.',
-    image: '/images/projects/chuitechma-voting.jpg',
-    preview_image: '',
-    technologies: ['PHP', 'MySQL', 'JavaScript', 'HTML5', 'CSS3'],
-    stats: { voters: '500+', elections: '12+', accuracy: '100%' },
-    featured: true,
-    github: 'https://github.com/GideonNgwese/chuitechma-voting',
-    live: 'https://midian.free.nf',
-  },
-  {
-    id: 2,
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce platform with real-time inventory management, payment processing, and admin dashboard.',
-    image: '/placeholder-1.jpg',
-    preview_image: '',
-    technologies: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL', 'Redis'],
-    stats: { users: '10K+', revenue: '$500K+', uptime: '99.9%' },
-    featured: true,
-    github: 'https://github.com/GideonNgwese/ecommerce-platform',
-    live: 'https://demo-ecommerce.example.com',
-  },
-  {
-    id: 3,
-    title: 'Task Management App',
-    description: 'A Trello-like task management application with drag-and-drop functionality, real-time collaboration, and team workspaces.',
-    image: '/placeholder-2.jpg',
-    preview_image: '',
-    technologies: ['React', 'Firebase', 'Tailwind CSS', 'Framer Motion'],
-    stats: { users: '5K+', tasks: '100K+', teams: '500+' },
-    featured: true,
-    github: 'https://github.com/GideonNgwese/task-app',
-    live: 'https://tasks.example.com',
-  },
-  {
-    id: 4,
-    title: 'Weather Dashboard',
-    description: 'A weather dashboard that provides accurate forecasts based on user location with hourly/daily forecasts and severe weather alerts.',
-    image: '/placeholder-3.jpg',
-    preview_image: '',
-    technologies: ['Next.js', 'OpenWeather API', 'Chart.js', 'Tailwind CSS'],
-    stats: { users: '20K+', forecasts: '1M+', accuracy: '95%' },
-    featured: false,
-    github: 'https://github.com/GideonNgwese/weather-dashboard',
-    live: 'https://weather.example.com',
-  },
-  {
-    id: 5,
-    title: 'Portfolio Generator',
-    description: 'An AI-powered tool that generates professional portfolio websites based on user input using GPT-4 for content generation.',
-    image: '/placeholder-4.jpg',
-    preview_image: '',
-    technologies: ['Next.js', 'OpenAI API', 'Vercel', 'Supabase'],
-    stats: { users: '2K+', portfolios: '5K+', generated: '10K+' },
-    featured: true,
-    github: 'https://github.com/GideonNgwese/portfolio-generator',
-    live: 'https://portfolio-gen.example.com',
-  },
-]
-
 export function AppleProjects() {
+  const [projects, setProjects] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
+  
+  useEffect(() => {
+    fetchProjects()
+  }, [])
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch('/api/projects')
+      if (!response.ok) throw new Error('Failed to fetch projects')
+      const data = await response.json()
+      // Filter only published projects
+      const publishedProjects = data.filter((p: any) => p.status === 'published')
+      setProjects(publishedProjects)
+    } catch (error) {
+      console.error('Failed to fetch projects:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
   
   return (
     <section id="projects" className="relative py-32 px-6 overflow-hidden">
@@ -90,8 +48,18 @@ export function AppleProjects() {
           </p>
         </motion.div>
         
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
+          </div>
+        ) : projects.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-gray-400">No published projects yet</p>
+          </div>
+        ) : (
+          <>
+            {/* Projects Grid */}
+            <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -179,7 +147,7 @@ export function AppleProjects() {
                   
                   {/* Technologies */}
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.map((tech) => (
+                    {project.technologies?.map((tech: string) => (
                       <span
                         key={tech}
                         className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm"
@@ -190,14 +158,16 @@ export function AppleProjects() {
                   </div>
                   
                   {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/10">
-                    {Object.entries(project.stats).map(([key, value]) => (
-                      <div key={key} className="text-center">
-                        <div className="font-display text-xl font-bold text-white">{value}</div>
-                        <div className="text-gray-500 text-xs capitalize">{key}</div>
-                      </div>
-                    ))}
-                  </div>
+                  {project.stats && (
+                    <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/10">
+                      {Object.entries(project.stats).map(([key, value]) => (
+                        <div key={key} className="text-center">
+                          <div className="font-display text-xl font-bold text-white">{value as string}</div>
+                          <div className="text-gray-500 text-xs capitalize">{key}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 
                 {/* 3D Hover Effect */}
@@ -218,6 +188,8 @@ export function AppleProjects() {
             </motion.div>
           ))}
         </div>
+        </>
+        )}
         
         {/* View All Button */}
         <motion.div
