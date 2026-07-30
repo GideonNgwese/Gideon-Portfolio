@@ -25,7 +25,7 @@ const skills: SkillCard[] = [
     projects: 25, 
     years: 4, 
     icon: Code, 
-    description: 'Building modern, responsive web applications with React ecosystem',
+    description: 'Building modern, responsive web applications',
     color: 'from-blue-500 to-cyan-500'
   },
   { 
@@ -36,7 +36,7 @@ const skills: SkillCard[] = [
     projects: 20, 
     years: 3, 
     icon: Layers, 
-    description: 'Full-stack React framework for production applications',
+    description: 'Full-stack React framework for production apps',
     color: 'from-slate-500 to-slate-700'
   },
   { 
@@ -47,11 +47,22 @@ const skills: SkillCard[] = [
     projects: 30, 
     years: 4, 
     icon: Terminal, 
-    description: 'Type-safe JavaScript for scalable applications',
+    description: 'Type-safe JavaScript for scalable apps',
     color: 'from-blue-600 to-blue-800'
   },
   { 
     id: '4', 
+    name: 'PHP', 
+    category: 'Languages', 
+    experience: 'Advanced', 
+    projects: 18, 
+    years: 3, 
+    icon: Code, 
+    description: 'Server-side scripting and web development',
+    color: 'from-indigo-500 to-purple-600'
+  },
+  { 
+    id: '5', 
     name: 'Node.js', 
     category: 'Backend', 
     experience: 'Advanced', 
@@ -62,18 +73,18 @@ const skills: SkillCard[] = [
     color: 'from-green-500 to-emerald-600'
   },
   { 
-    id: '5', 
+    id: '6', 
     name: 'Python', 
     category: 'Languages', 
     experience: 'Advanced', 
     projects: 10, 
     years: 3, 
     icon: Code, 
-    description: 'Data science, automation, and backend development',
+    description: 'Data science, automation, and backend',
     color: 'from-yellow-500 to-orange-500'
   },
   { 
-    id: '6', 
+    id: '7', 
     name: 'PostgreSQL', 
     category: 'Database', 
     experience: 'Advanced', 
@@ -84,7 +95,18 @@ const skills: SkillCard[] = [
     color: 'from-blue-700 to-indigo-800'
   },
   { 
-    id: '7', 
+    id: '8', 
+    name: 'MySQL', 
+    category: 'Database', 
+    experience: 'Advanced', 
+    projects: 14, 
+    years: 3, 
+    icon: Database, 
+    description: 'Popular relational database system',
+    color: 'from-orange-600 to-amber-700'
+  },
+  { 
+    id: '9', 
     name: 'MongoDB', 
     category: 'Database', 
     experience: 'Intermediate', 
@@ -95,18 +117,29 @@ const skills: SkillCard[] = [
     color: 'from-green-600 to-teal-700'
   },
   { 
-    id: '8', 
+    id: '10', 
+    name: 'Supabase', 
+    category: 'Backend', 
+    experience: 'Advanced', 
+    projects: 10, 
+    years: 2, 
+    icon: Server, 
+    description: 'Open-source Firebase alternative with PostgreSQL',
+    color: 'from-emerald-500 to-green-600'
+  },
+  { 
+    id: '11', 
     name: 'AWS', 
     category: 'Cloud', 
     experience: 'Intermediate', 
     projects: 6, 
     years: 2, 
     icon: Cloud, 
-    description: 'Cloud infrastructure and deployment services',
+    description: 'Cloud infrastructure and deployment',
     color: 'from-orange-500 to-red-500'
   },
   { 
-    id: '9', 
+    id: '12', 
     name: 'Docker', 
     category: 'DevOps', 
     experience: 'Intermediate', 
@@ -117,36 +150,25 @@ const skills: SkillCard[] = [
     color: 'from-blue-400 to-cyan-500'
   },
   { 
-    id: '10', 
-    name: 'GraphQL', 
-    category: 'API', 
-    experience: 'Advanced', 
-    projects: 8, 
-    years: 2, 
-    icon: Zap, 
-    description: 'Query language for flexible API design',
-    color: 'from-pink-500 to-rose-600'
-  },
-  { 
-    id: '11', 
+    id: '13', 
     name: 'Tailwind CSS', 
     category: 'Frontend', 
     experience: 'Expert', 
     projects: 20, 
     years: 3, 
     icon: Palette, 
-    description: 'Utility-first CSS framework for rapid UI development',
+    description: 'Utility-first CSS framework',
     color: 'from-cyan-400 to-blue-500'
   },
   { 
-    id: '12', 
+    id: '14', 
     name: 'React Native', 
     category: 'Mobile', 
     experience: 'Intermediate', 
     projects: 4, 
     years: 1, 
     icon: Smartphone, 
-    description: 'Cross-platform mobile application development',
+    description: 'Cross-platform mobile development',
     color: 'from-purple-500 to-indigo-600'
   },
 ]
@@ -241,7 +263,7 @@ export function InteractiveSkills() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
         >
           <AnimatePresence mode="wait">
             {filteredSkills.map((skill) => (
@@ -257,46 +279,40 @@ export function InteractiveSkills() {
                 onMouseLeave={() => setHoveredSkill(null)}
                 className="group relative"
               >
-                <div className="relative h-full bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 overflow-hidden hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10">
-                  {/* Gradient Background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                <div className="relative h-full bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-4 overflow-hidden hover:border-white/30 transition-all duration-300 hover:shadow-xl hover:shadow-black/20">
+                  {/* Gradient Accent */}
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${skill.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                   
                   {/* Icon */}
-                  <div className="relative mb-4">
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center shadow-lg`}>
-                      <skill.icon className="w-7 h-7 text-white" />
+                  <div className="relative mb-3">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${skill.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <skill.icon className="w-5 h-5 text-white" />
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="relative">
-                    <h3 className="font-display font-bold text-xl text-white mb-2 group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-display font-bold text-base text-white mb-1 group-hover:text-blue-400 transition-colors">
                       {skill.name}
                     </h3>
-                    <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+                    <p className="text-xs text-gray-500 mb-3 line-clamp-1">
                       {skill.description}
                     </p>
                     
-                    {/* Stats */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                        <div className="text-xs text-gray-500 mb-1">Experience</div>
-                        <div className="font-semibold text-white">{skill.experience}</div>
-                      </div>
-                      <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                        <div className="text-xs text-gray-500 mb-1">Projects</div>
-                        <div className="font-semibold text-white">{skill.projects}</div>
-                      </div>
-                      <div className="bg-white/5 rounded-lg p-3 border border-white/5 col-span-2">
-                        <div className="text-xs text-gray-500 mb-1">Years of Experience</div>
-                        <div className="font-semibold text-white">{skill.years} years</div>
-                      </div>
+                    {/* Experience Badge */}
+                    <div className="flex items-center gap-2">
+                      <span className={`px-2 py-0.5 text-[10px] font-semibold bg-gradient-to-r ${skill.color} text-white rounded-full`}>
+                        {skill.experience}
+                      </span>
+                      <span className="text-[10px] text-gray-500">
+                        {skill.years}y
+                      </span>
                     </div>
                   </div>
 
                   {/* Category Badge */}
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 text-xs font-medium bg-white/10 text-gray-300 rounded-full border border-white/10">
+                  <div className="absolute top-3 right-3">
+                    <span className="px-2 py-0.5 text-[9px] font-medium bg-white/5 text-gray-400 rounded border border-white/5">
                       {skill.category}
                     </span>
                   </div>
